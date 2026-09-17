@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>¡Todo listo! — Fichaje WhatsApp</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="barra"><span class="marca">Fichaje WhatsApp</span></div>
+
+  <div class="contenedor">
+    <% if (pendiente) { %>
+      <div class="tarjeta">
+        <h2>Estamos terminando de configurar tu cuenta…</h2>
+        <p>El pago se ha recibido, pero la cuenta está tardando más de lo
+        normal en activarse. Recarga esta página en unos segundos.</p>
+        <button onclick="location.reload()">Recargar</button>
+      </div>
+    <% } else { %>
+      <div class="tarjeta">
+        <h2>¡Pago completado! Tu cuenta ya está lista</h2>
+        <p>Empresa: <strong><%= empresa %></strong></p>
+        <div class="credenciales">
+          <p>Guarda estos datos, <strong>no volverás a verlos</strong>:</p>
+          <p>Usuario: <code><%= email %></code></p>
+          <p>Contraseña provisional: <code><%= password %></code></p>
+        </div>
+        <p>Te recomendamos cambiarla en cuanto entres al panel.</p>
+        <a href="/login"><button>Entrar al panel</button></a>
+      </div>
+      <div class="tarjeta">
+        <h2>Un último paso</h2>
+        <p>Para que tus empleados puedan fichar, necesitas conectar el número
+        de WhatsApp de tu negocio. Te lo explicamos en el correo que te
+        acabamos de enviar, o pídeselo directamente a soporte.</p>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>

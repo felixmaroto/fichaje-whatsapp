@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Empleados — Fichaje WhatsApp</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="barra">
+    <span class="marca">Fichaje WhatsApp</span>
+    <div>
+      <a href="/admin">Resumen</a>
+      <a href="/admin/empleados">Empleados</a>
+      <a href="/admin/fichajes">Fichajes</a>
+      <a href="/logout">Salir</a>
+    </div>
+  </div>
+
+  <div class="contenedor">
+    <div class="tarjeta">
+      <h2>Añadir empleado</h2>
+      <% if (error) { %><p class="error"><%= error %></p><% } %>
+      <form class="linea" method="POST" action="/admin/empleados">
+        <div>
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" name="nombre" required>
+        </div>
+        <div>
+          <label for="telefono">Teléfono (con prefijo, ej. 34600123456)</label>
+          <input type="text" id="telefono" name="telefono" pattern="[0-9]{9,15}" required>
+        </div>
+        <div>
+          <label for="centro">Centro de trabajo (opcional)</label>
+          <input type="text" id="centro" name="centro">
+        </div>
+        <button type="submit">Añadir</button>
+      </form>
+    </div>
+
+    <div class="tarjeta">
+      <h2>Plantilla</h2>
+      <table>
+        <tr><th>Nombre</th><th>Teléfono</th><th>Centro</th><th>Estado</th><th></th></tr>
+        <% empleados.forEach(e => { %>
+        <tr>
+          <td><%= e.nombre %></td>
+          <td><%= e.telefono %></td>
+          <td><%= e.centro || '—' %></td>
+          <td><%= e.activo ? 'Activo' : 'Inactivo' %></td>
+          <td>
+            <% if (e.activo) { %>
+            <form method="POST" action="/admin/empleados/<%= e.id %>/desactivar" style="margin:0">
+              <button type="submit">Dar de baja</button>
+            </form>
+            <% } %>
+          </td>
+        </tr>
+        <% }) %>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

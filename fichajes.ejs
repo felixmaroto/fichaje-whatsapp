@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Fichajes — Fichaje WhatsApp</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="barra">
+    <span class="marca">Fichaje WhatsApp</span>
+    <div>
+      <a href="/admin">Resumen</a>
+      <a href="/admin/empleados">Empleados</a>
+      <a href="/admin/fichajes">Fichajes</a>
+      <a href="/logout">Salir</a>
+    </div>
+  </div>
+
+  <div class="contenedor">
+    <div class="tarjeta">
+      <h2>Filtrar</h2>
+      <form class="linea" method="GET" action="/admin/fichajes">
+        <div>
+          <label for="desde">Desde</label>
+          <input type="date" id="desde" name="desde" value="<%= desde %>">
+        </div>
+        <div>
+          <label for="hasta">Hasta</label>
+          <input type="date" id="hasta" name="hasta" value="<%= hasta %>">
+        </div>
+        <button type="submit">Filtrar</button>
+        <a href="/admin/fichajes/exportar?desde=<%= desde %>&hasta=<%= hasta %>">
+          <button type="button">Exportar a Excel</button>
+        </a>
+      </form>
+    </div>
+
+    <div class="tarjeta">
+      <h2>Fichajes (<%= fichajes.length %>)</h2>
+      <table>
+        <tr><th>Empleado</th><th>Tipo</th><th>Fecha y hora</th></tr>
+        <% fichajes.forEach(f => { %>
+        <tr>
+          <td><%= f.empleado %></td>
+          <td><span class="badge <%= f.tipo %>"><%= f.tipo.replace('_', ' ') %></span></td>
+          <td><%= new Date(f.registrado_en).toLocaleString('es-ES', { timeZone: 'Europe/Madrid' }) %></td>
+        </tr>
+        <% }) %>
+        <% if (fichajes.length === 0) { %>
+        <tr><td colspan="3">Sin fichajes en este rango de fechas.</td></tr>
+        <% } %>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

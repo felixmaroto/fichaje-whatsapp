@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel — Fichaje WhatsApp</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="barra">
+    <span class="marca">Fichaje WhatsApp</span>
+    <div>
+      <a href="/admin">Resumen</a>
+      <a href="/admin/empleados">Empleados</a>
+      <a href="/admin/fichajes">Fichajes</a>
+      <a href="/logout">Salir</a>
+    </div>
+  </div>
+
+  <div class="contenedor">
+    <% if (empresa && empresa.estado === 'pago_pendiente') { %>
+    <div class="aviso">
+      ⚠️ El último cobro no se pudo procesar. El fichaje por WhatsApp está
+      pausado para tus empleados hasta que se regularice el pago en Stripe.
+    </div>
+    <% } %>
+    <div class="tarjeta">
+      <h2>Hoy</h2>
+      <div class="resumen">
+        <div class="metrica">
+          <div class="num"><%= resumen.entradas_hoy %></div>
+          <div class="etiqueta">entradas registradas hoy</div>
+        </div>
+        <div class="metrica">
+          <div class="num"><%= resumen.total_empleados %></div>
+          <div class="etiqueta">empleados activos</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tarjeta">
+      <h2>Últimos fichajes</h2>
+      <table>
+        <tr><th>Empleado</th><th>Tipo</th><th>Hora</th></tr>
+        <% fichajesRecientes.forEach(f => { %>
+        <tr>
+          <td><%= f.empleado %></td>
+          <td><span class="badge <%= f.tipo %>"><%= f.tipo.replace('_', ' ') %></span></td>
+          <td><%= new Date(f.registrado_en).toLocaleString('es-ES', { timeZone: 'Europe/Madrid' }) %></td>
+        </tr>
+        <% }) %>
+        <% if (fichajesRecientes.length === 0) { %>
+        <tr><td colspan="3">Todavía no hay fichajes.</td></tr>
+        <% } %>
+      </table>
+      <p class="enlace-secundario"><a href="/admin/fichajes">Ver todos y exportar →</a></p>
+    </div>
+  </div>
+</body>
+</html>
